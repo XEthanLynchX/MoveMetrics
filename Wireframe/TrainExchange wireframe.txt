@@ -1,0 +1,10 @@
+1. My project will be called the TrainExchange. It will aim to solve the issue of sharing a training plan or workout with friends, peers, and others. 
+2. I'll be creating this project using the MERN stack. 
+3. Features will include a login and logout, users able to post their workouts or training plan, Users will be able to like and (maybe comment) on the plan,
+ as well as edit and delete their plan.
+4. https://github.com/XEthanLynchX/TrainExchange
+
+
+
+
+ 

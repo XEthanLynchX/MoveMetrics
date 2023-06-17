@@ -1,4 +1,7 @@
 const UserSchema = new mongoose.Schema({
+
+  //This is going to be the blueprint for our User objects in our database
+  //We are going to use this blueprint in our controller file
   firstName: {
     type: String,
     required: [true, "First name is required"]

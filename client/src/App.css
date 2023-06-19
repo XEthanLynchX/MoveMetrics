@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.DisplayAllCard {
+  background-color: black;
+  border: 8px solid gray;
+  border-radius: 30px;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+
+}
+
+.OneCard {
+  background-color: black;
+  border: 8px inset red;
+  border-radius: 30px;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+}
+.label {
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.error-message {
+  color: yellow;
+  font-weight: bold;
+  font-size: 20px;
+}

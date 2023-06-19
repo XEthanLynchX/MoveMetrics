@@ -1,11 +1,12 @@
-const Routine = require("../models/routine.models");
+const Routine = require("../models/routine.model");
 
 
 //To create a routine
 module.exports.createRoutine = (req, res) => {
     Routine.create(req.body)
       .then(routine => res.json(routine))
-        .catch(err => res.json({message: "Something went wrong (create) ", error: err}));
+      //This has to be a 400 because it is a validation error and it wont show on front end validation
+      .catch(err => res.status(400).json(err));
 },
 
 
@@ -32,7 +33,7 @@ module.exports.updateRoutine = (req, res) => {
     {new: true, runValidators: true}
   )
     .then(updatedRoutine => res.json(updatedRoutine))
-    .catch(err => res.json({message: "Something went wrong (update)", error: err}));
+      .catch(err => res.status(400).json(err));
 },
 
 //To delete a routine

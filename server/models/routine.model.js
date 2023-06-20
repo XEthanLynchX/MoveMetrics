@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 //This is going to be the blueprint for our Routine objects in our database
 //We are going to use this blueprint in our controller file
 const routineSchema = new mongoose.Schema({

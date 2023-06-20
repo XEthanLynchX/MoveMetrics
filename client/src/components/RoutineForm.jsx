@@ -62,7 +62,7 @@ const RoutineForm = () => {
       <div className="card bg-black text-white">
         <div className="card-header">
           <Link to="/" className="btn btn-primary me-3">Home</Link>
-          <button className="btn  btn-primary">Logout</button>
+          {/* <button className="btn  btn-primary">Logout</button> */}
         </div>
         <div className="card-body">
         <h5 className="card-title">Add a New Routine!</h5>
@@ -95,7 +95,7 @@ const RoutineForm = () => {
               onChange={(e) => { setExercise(e.target.value) }}
             />
              {exercisesError && <p className='error-message'>{exercisesError}</p>}
-            {errors.exercise && <p className="error-message">{errors.exercise.message}</p>}
+        
             <label htmlFor="time" className="label">Time:</label>
             <input
               className="form-control"

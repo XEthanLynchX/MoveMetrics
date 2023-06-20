@@ -1,8 +1,7 @@
-const Users = require('../controllers/user.controller');
-const { authenticate } = require('../config/jwt.config');
-module.exports = app => {
-  app.post("/api/register", Users.register);
-  app.post("/api/login", Users.login);
-  // this route now has to be authenticated
-  app.get("/api/users", authenticate, Users.getAll);
+const user = require("../controllers/user.controller.js");
+
+
+module.exports = function(app) { 
+  app.post("/api/login", user.loginUser);
+  app.post("/api/signup", user.signup);
 }

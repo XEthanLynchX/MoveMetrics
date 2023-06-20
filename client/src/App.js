@@ -4,7 +4,8 @@ import DisplayAll from './components/DisplayAll';
 import OneRoutine from './components/OneRoutine';
 import UpdateRoutine from './components/UpdateRoutine';
 import RoutineForm from './components/RoutineForm';
-import RegLogForm from './components/RegLogForm';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Import custom CSS file for styling
 
@@ -18,6 +19,8 @@ function App() {
           <Route path="/routines/:id" element={<OneRoutine />} />
           <Route path="/update/:id" element={<UpdateRoutine />} />
           <Route path="/new" element={<RoutineForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </div>

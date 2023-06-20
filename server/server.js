@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require('cookie-parser');
 
 
+
 app.use(cookieParser());
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
@@ -18,5 +19,8 @@ require('dotenv').config();
 
 const AllMyStoresRoutes = require('./routes/routine.routes');
 AllMyStoresRoutes(app);
+
+const AllMyUserRoutes = require('./routes/user.routes');
+AllMyUserRoutes(app);
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

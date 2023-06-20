@@ -39,7 +39,8 @@ const DisplayAll = () => {
       </div>
       <div>
         <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
-        <button className="btn  btn-primary">Logout</button>
+        {/* <Link to="/login" className="btn btn-primary me-3">Login</Link>
+        <Link to="/signup" className="btn btn-primary me-3">Sign Up</Link> */}
       </div>
     </header>
   

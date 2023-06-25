@@ -18,7 +18,7 @@ module.exports.loginUser = async (req, res) => {
     }
 
     // Generate a JWT
-    const token = jwt.sign({ userId: user._id }, 'your-secret-key');
+    const token = jwt.sign({ userId: user._id }, 'secret-key');
     console.log('User logged in:', user);
     res.status(200).json({ token });
   } catch (err) {
@@ -30,6 +30,7 @@ module.exports.loginUser = async (req, res) => {
 // Signup user
 module.exports.signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+
   try {
 
     // Validation
@@ -64,8 +65,8 @@ module.exports.signup = async (req, res) => {
     console.log('User created:', user);
 
     // Generate a JWT
-    const token = jwt.sign({ userId: user._id }, 'your-secret-key');
-    res.status(201).json({ token });
+    const token = jwt.sign({ userId: user._id }, 'secret-key');
+    res.status(200).json({ token });
   } catch (err) {
     console.log('Signup error:', err);
     console.log("hi");

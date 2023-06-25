@@ -15,6 +15,8 @@ const RoutineForm = () => {
 
   const navigate = useNavigate();
 
+
+  //custom validation for exercise
   const validateExercises = () => {
     if (exercise.length === 0) {  
       setExerciseError('Exercise(s) is required.');

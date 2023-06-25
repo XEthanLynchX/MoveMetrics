@@ -30,6 +30,7 @@ const UpdateRoutine = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     
+    //custom validation for exercise
     const validateExercise = () => {
       if (exercise.length === 0) {
         setExerciseError('Exercise(s) is required.');
@@ -44,9 +45,11 @@ const UpdateRoutine = () => {
       setExerciseError('');
       return true; // Return true to indicate validation success
     };
-  
+    
+    // Call validateExercise and store the result in a variable
     const isValid = validateExercise();
     
+    // If isValid is true, then submit the form data to the backend
     if (isValid) {
       axios
         .put(`http://localhost:8000/api/routines/${id}`, {
@@ -73,7 +76,7 @@ const UpdateRoutine = () => {
       <div className="card bg-black text-white">
         <div className="card-header">
           <Link to="/" className="btn btn-primary me-3">Home</Link>
-          <button className="btn  btn-primary">Logout</button>
+          {/* <button className="btn  btn-primary">Logout</button> */}
         </div>
         <div className="card-body">
 
@@ -118,6 +121,7 @@ const UpdateRoutine = () => {
             />
 
             {errors.time && <p className="error-message">{errors.time.message}</p>}
+
             <label htmlFor="difficulty" className="label">Difficulty:</label>
             <input
               className="form-control"
@@ -128,6 +132,7 @@ const UpdateRoutine = () => {
               value={difficulty}
               onChange={(e) => { setDifficulty(e.target.value) }}
             />
+
             {errors.difficulty && <p className="error-message">{errors.difficulty.message}</p>}
 
             <label htmlFor="description" className="label">Description:</label>
@@ -140,7 +145,9 @@ const UpdateRoutine = () => {
               value={description}
               onChange={(e) => { setDescription(e.target.value) }}
             />
+
             {errors.description && <p className="error-message">{errors.description.message}</p>}
+            
           </div>
           <button type="submit" className="btn btn-primary" onClick={onSubmitHandler}>Submit</button>
         </form>

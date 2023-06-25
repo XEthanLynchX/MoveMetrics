@@ -39,7 +39,7 @@
 
 .DisplayAllCard {
   background-color: black;
-  border: 8px solid gray;
+  border: 8px inset red;
   border-radius: 30px;
   color: white;
   padding: 10px;

@@ -13,8 +13,8 @@ const Signup = () => {
 
 const handleSubmit = async(e) => {
   e.preventDefault();
-  await signup({firstName, lastName, email, password});
-  console.log(firstName, lastName, email, password);
+  await signup(firstName, lastName, email, password)
+  console.log(firstName, lastName, email, password)
 };
 
 return (
@@ -73,7 +73,8 @@ return (
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={isLoading}>Sign Up</button>
-          {error && <p className="error-message">{error}</p>}
+        
+          {error && <p className="error">{error}</p>}
         </form>
 
         <p className="mt-3 text-center">

@@ -33,7 +33,9 @@ return (
               name="firstName"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              
             />
+         
           </div>
 
           <div className="mb-3">
@@ -70,11 +72,12 @@ return (
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+           
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={isLoading}>Sign Up</button>
         
-          {error && <p className="error">{error}</p>}
+          {error && <p className="error-message2">{error.json.message}</p>}
         </form>
 
         <p className="mt-3 text-center">

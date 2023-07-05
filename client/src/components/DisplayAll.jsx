@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
-
+import { useLogout } from "../hooks/useLogout";
 
 const DisplayAll = () => {
   const [routine, setRoutine] = useState([]);
+  const { logout } = useLogout();
 
+  const handleLogout = () => {
+    logout();
+  };
+  
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/routines")
@@ -37,7 +42,10 @@ const DisplayAll = () => {
     <div className="container p-4" style={{ backgroundColor: 'red', border:'10px inset gray', borderRadius: '8px', overflowY: 'scroll', maxHeight: '80vh' }}>
       <header className="d-flex justify-content-between align-items-center mb-4" style={{ borderBottom: '10px solid black' }}>
         <h1 className="text-white">TrainExchange</h1>
-        <Link to="/new" className="btn btn-primary">Create New Routine</Link>
+        <div>
+            <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
+            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+          </div>
       </header>
 
       <div className="row">

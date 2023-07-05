@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLogin } from '../hooks/useLogin';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
@@ -6,10 +7,11 @@ import '../App.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {login, error, isLoading} = useLogin();
 
 const handleSubmit = async(e) => {
   e.preventDefault();
-  console.log(email, password);
+  await login(email, password);
 };
 
 return (
@@ -43,9 +45,11 @@ return (
             />
           </div>
 
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" className="btn btn-primary" disabled={isLoading}>Login</button>
         </form>
 
+        {error && <p className="error-message2">{error.json.message}</p>}
+        
         <p className="mt-3 text-center">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>

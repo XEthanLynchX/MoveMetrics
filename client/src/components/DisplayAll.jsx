@@ -4,10 +4,14 @@ import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const DisplayAll = () => {
   const [routine, setRoutine] = useState([]);
   const { logout } = useLogout();
+  const { user } = useAuthContext();
+  
+  console.log("User:", user);
 
   const handleLogout = () => {
     logout();
@@ -42,10 +46,21 @@ const DisplayAll = () => {
     <div className="container p-4" style={{ backgroundColor: 'red', border:'10px inset gray', borderRadius: '8px', overflowY: 'scroll', maxHeight: '80vh' }}>
       <header className="d-flex justify-content-between align-items-center mb-4" style={{ borderBottom: '10px solid black' }}>
         <h1 className="text-white">TrainExchange</h1>
-        <div>
-            <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
-            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-          </div>
+        {/* if user is logged in, show the following */}
+        
+          {!user && (
+            <div>
+              <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
+              <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+            </div>
+              )}
+        {/* if user is not logged in, show the following */}
+          {user && (
+            <div>
+              <Link to="/login" className="btn btn-primary me-3">Login</Link>
+              <Link to="/signup" className="btn btn-primary">Sign Up</Link>
+              </div>
+              )}
       </header>
 
       <div className="row">

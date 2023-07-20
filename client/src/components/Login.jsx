@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState} from 'react';
 import { useLogin } from '../hooks/useLogin';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
-
+import { useAuthContext } from "../hooks/useAuthContext";
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {login, error, isLoading} = useLogin();
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
 
+console.log("User:", user);
 const handleSubmit = async(e) => {
   e.preventDefault();
   await login(email, password);
+  // navigate("/");
+
 };
 
 return (

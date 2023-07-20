@@ -27,13 +27,33 @@ const userSchema = new mongoose.Schema({
 
 
 //sign up
-userSchema.statics.signUpUser = async function(firstName, lastName, email, password) {
+userSchema.statics.signUp = async function(firstName, lastName, email, password) {
 
   const exists = await this.findOne({ email });
 
   if (exists) {
     throw Error('Email already exists');
   }
+
+  if (!firstName || !lastName) {
+    throw Error('First and last name are required');
+  }
+
+  if(firstName.length < 2 || lastName.length < 2) {
+    throw Error('First and last name must be at least 2 characters long');  
+  }
+
+  if (!email || !password) {
+    throw Error('Email and password are required');
+  }
+
+  if (!validator.isEmail(email)) {
+    throw Error('Email is invalid');
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    throw Error('Password Must be at least 8 characters long, contain at least 1 lowercase, 1 uppercase, 1 number, and 1 symbol');
+}
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -44,7 +64,7 @@ userSchema.statics.signUpUser = async function(firstName, lastName, email, passw
 };
 
 //static login method
-userSchema.statics.loginUser = async function(email, password) {
+userSchema.statics.login = async function(email, password) {
 
   //validation
   if (!email || !password) {

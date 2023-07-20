@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState} from 'react';
+import { Link , useNavigate} from 'react-router-dom';
 import { useSignup } from '../hooks/useSignup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
@@ -10,11 +10,13 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {signup, error, isLoading} = useSignup();
+  const navigate = useNavigate();
 
 const handleSubmit = async(e) => {
   e.preventDefault();
   await signup(firstName, lastName, email, password)
   console.log(firstName, lastName, email, password)
+  // navigate("/")
 };
 
 return (

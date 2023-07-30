@@ -18,8 +18,11 @@ require('./config/mongoose.config');
 
 require('dotenv').config();
 
-const AllMyStoresRoutes = require('./routes/routine.routes');
-AllMyStoresRoutes(app);
+const AllMyRoutineRoutes = require('./routes/routine.routes');
+AllMyRoutineRoutes(app);
+
+const AllMyExerciseRoutes = require('./routes/exercise.routes');
+AllMyExerciseRoutes(app);
 
 const AllMyUserRoutes = require('./routes/user.routes');
 AllMyUserRoutes(app);

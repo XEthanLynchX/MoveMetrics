@@ -12,20 +12,9 @@ const routineSchema = new mongoose.Schema({
   },
 
   exercise: { 
-    type: [
-      {
-        type: String,
-        required: true,
-        minlength: [5, 'Exercise(s) must be at least 5 characters long.'],
-        maxlength: [500, 'Exercise(s) cannot be more than 500 characters long.'],
-      },
-    ],
-    validate: {
-      validator: function (value) {
-        return value.length > 0; // Ensure the exercise array is not empty
-      },
-      message: 'Exercise(s) is required.',
-    },
+     type: mongoose.Schema.Types.ObjectId,
+      ref: 'Exercise',
+      default: null ,
   },
 
   time: {

@@ -13,7 +13,7 @@ const exerciseSchema = new mongoose.Schema({
   load : {
     type: Number,
     required: [true, "Exercise load is required."],
-    max : [1, "Exercise load must be less than 1000."],
+    max : [1000, "Exercise load must be less than 1000."],
     
   },
 
@@ -34,6 +34,8 @@ const exerciseSchema = new mongoose.Schema({
   note: {
     type: String,
     maxlength: [255, "Exercise note must be less than 255 characters long."],
-  }}, {timestamps: true});
+  }
+
+}, {timestamps: true});
 
 module.exports = mongoose.model("Exercise", exerciseSchema);

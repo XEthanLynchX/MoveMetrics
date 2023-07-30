@@ -33,7 +33,6 @@ module.exports.signupUser = async (req, res) => {
     res.status(200).json({ email, token });
   } catch (err) {
     console.log('Signup error:', err);
-    console.log("hi");
     res.status(400).json({ message: err.message });
   }
 }

@@ -9,7 +9,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const {login, error, isLoading} = useLogin();
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const {state} = useAuthContext();
+  const { user } = state
+
 
 console.log("User:", user);
 const handleSubmit = async(e) => {
@@ -51,6 +53,7 @@ return (
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={isLoading}>Login</button>
+          <span></span>
         </form>
 
         {error && <p className="error-message2">{error.json.message}</p>}

@@ -12,7 +12,7 @@ module.exports.loginUser = async (req, res) => {
   try {
     const user = await User.login( email , password );
     
-    const token = User.createToken(user._id);
+    const token = createToken(user._id);
 
     res.status(200).json({ email, token });
   } catch (err) {

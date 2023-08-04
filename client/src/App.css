@@ -72,3 +72,11 @@
   font-weight: bold;
   font-size: 20px;
 }
+
+.Move {
+  font-family: "Blippo, fantasy";
+  font-size: 72px;
+  font-weight: bold;
+  color: lightgreen;
+  margin-bottom: 20px;
+}

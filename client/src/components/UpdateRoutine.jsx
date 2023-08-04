@@ -104,7 +104,7 @@ const UpdateRoutine = () => {
               name="exercise"
               id="exercise"
               placeholder='Exercise(s)'
-              value={exercise.join(', ')}
+              // value={exercise.join(', ')}
               onChange={(e) => setExercise(e.target.value.split(', '))}
             />
             {exercisesError && <p className='error-message'>{exercisesError}</p>}

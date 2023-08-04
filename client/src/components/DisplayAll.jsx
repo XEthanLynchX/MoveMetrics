@@ -9,11 +9,12 @@ import { useRoutinesContext } from "../hooks/useRoutinesContext";
 
 
 const DisplayAll = () => {
-  // const [routine, setRoutine] = useState([]);
+  const [routine, setRoutine] = useState([]);
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const {routines, dispatch} = useRoutinesContext();  
   
+ 
   // console.log("User:", user);
 
   const handleLogout = () => {
@@ -29,16 +30,20 @@ const DisplayAll = () => {
   //     })
   //     .catch((err) => console.log(err));
   // }, []);
+  // console.log("Routines intial state:", routines); // Move the console.log here
 
+  //my
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/routines")
       .then((res) => {
         console.log(res.data);
-        dispatch({type: "SET_ROUTINES", payload: res.data});
+        dispatch({ type: "SET_ROUTINES", payload: res  });
+        console.log("Routines:", routines); // Move the console.log here
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [dispatch]);
+ 
 
   // const deleteRoutine = (deleteId) => {
   //   axios.delete(`http://localhost:8000/api/routines/${deleteId}`)

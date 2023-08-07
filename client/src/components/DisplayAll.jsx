@@ -7,6 +7,9 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useRoutinesContext } from "../hooks/useRoutinesContext";
 import trash from "../imgs/trash.png";
+import formatDistanceTowNow from "date-fns/formatDistanceToNow";
+import DeleteConfirmation from "./DeleteConfirmation";
+import { useState } from "react";
 
 
 const DisplayAll = () => {
@@ -17,10 +20,9 @@ const DisplayAll = () => {
   //  we set the state and then use that state to set the routines
   const { state, dispatch } = useRoutinesContext();
   const { routines } = state;
-  
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [routineToDelete, setRoutineToDelete] = useState(null);
  
-
-
   const handleLogout = () => {
     logout();
   };
@@ -38,20 +40,25 @@ const DisplayAll = () => {
  
   // console.log ("user", user);
  
-
   const handleDelete = (deleteId) => {
-    if (window.confirm("Are you sure you want to delete this routine?")) {
-      axios.delete(`http://localhost:8000/api/routines/${deleteId}`)
-        .then((res) => {
-          console.log("Routine deleted:", res.data);
-          dispatch({ type: "DELETE_ROUTINE", payload: deleteId });
-        })
-        .catch((err) => {
-          console.error("Error deleting routine:", err.response);
-          // Show an error notification to the user
-          // You might use a library like react-toastify or any other notification library
-        });
-    }
+    setRoutineToDelete(deleteId);
+    setShowConfirmation(true);
+  };
+
+
+  const confirmDelete = () => {
+    axios
+      .delete(`http://localhost:8000/api/routines/${routineToDelete}`)
+      .then((res) => {
+        console.log("Routine deleted:", res.data);
+        dispatch({ type: "DELETE_ROUTINE", payload: routineToDelete });
+      })
+      .catch((err) => {
+        console.error("Error deleting routine:", err.response);
+      })
+      .finally(() => {
+        setShowConfirmation(false);
+      });
   };
   
   // const deleteRoutine = (deleteId) => {
@@ -70,8 +77,8 @@ const DisplayAll = () => {
 
 return (
   <div className="display-all-container">
-    <header className="bg-dark bg-gradient text-white p-3 text-center">
-      <h1 className="Move" style={{ textAlign: 'left' }}>MoveMetrics</h1>
+    <header className=" bg-secondary bg-opacity-4  bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow" >
+      <h1 className="Move" style={{ textAlign: 'left', marginTop: "2%", textShadow: "2px 2px black" }}>MoveMetrics</h1>
       {user ? (
         <div>
           <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
@@ -96,9 +103,15 @@ return (
                 <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
                 <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
                 <p className="card-text"><span className="label text-black">Description:</span> {routine.description}</p>
+                <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt),{addsuffix:true})} ago</p>
                 <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                   <img className="delete-icon" src={trash} alt="Delete" />
                 </button>
+                          <DeleteConfirmation
+                  show={showConfirmation}
+                  onClose={() => setShowConfirmation(false)}
+                  onConfirm={confirmDelete}
+                />
               </div>
             </div>
           </div>

@@ -37,13 +37,31 @@
   }
 }
 
+.display-all-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f9fa; /* Light gray background color */
+  color: green;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+
+.routine-title {
+  color: lightgreen; /* Blue color */
+  margin-bottom: 5px;
+  font-size: 32px;
+  font-weight: bold; /* Make the title bold */
+}
+
 .DisplayAllCard {
-  background-color: black;
-  border: 8px inset red;
-  border-radius: 30px;
-  color: white;
+  background-color: white;
+  color: black;
   padding: 10px;
   font-weight: bold;
+  text-align: left;
 
 }
 
@@ -56,9 +74,13 @@
   font-weight: bold;
 }
 .label {
-  color: red;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: rgb(95, 89, 89);
 }
 
 .error-message {
@@ -79,4 +101,21 @@
   font-weight: bold;
   color: lightgreen;
   margin-bottom: 20px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px; /* Adjust the top distance as needed */
+  right: 10px; /* Adjust the right distance as needed */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Define styles for the delete icon */
+.delete-icon {
+  width: 100px;
+  height: auto;
+  border-radius: 100%;
 }

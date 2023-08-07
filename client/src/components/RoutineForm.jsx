@@ -11,39 +11,20 @@ const RoutineForm = () => {
   const [difficulty, setDifficulty] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
-  const [exercisesError, setExerciseError] = useState('');
+
 
   const navigate = useNavigate();
 
 
-  //custom validation for exercise
-  const validateExercises = () => {
-    if (exercise.length === 0) {  
-      setExerciseError('Exercise(s) is required.');
-    }
-
-   else if (exercise.length < 5 ){
-      setExerciseError('Exercise(s) must be at least 5 characters long.');
-    } 
-    else if (exercise.length > 500) { 
-      setExerciseError('Exercise(s) Cannot be more than 500 characters long.');
-    }
-    else {
-      setExerciseError('');
-    }
-
-    
-  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    validateExercises();
+ 
 
     axios
       .post('http://localhost:8000/api/routines', {
         name,
-        exercise,
         time,
         difficulty,
         description
@@ -85,18 +66,6 @@ const RoutineForm = () => {
            
            {errors.name && <p className="error-message">{errors.name.message}</p>}
            
-
-            <label htmlFor="exercise" className="label">Exercise(s):</label>
-            <input
-              className="form-control"
-              type="text"
-              name="exercise"
-              id="exercise"
-              placeholder='Exercise(s)'
-              value={exercise}
-              onChange={(e) => { setExercise(e.target.value) }}
-            />
-             {exercisesError && <p className='error-message'>{exercisesError}</p>}
         
             <label htmlFor="time" className="label">Time:</label>
             <input

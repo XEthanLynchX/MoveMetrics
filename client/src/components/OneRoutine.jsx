@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 
-const OneRoutine = (props) => {
+const OneRoutine = () => {
   const { id } = useParams();
   const [oneRoutine, setOneRoutine] = useState({});
 
@@ -26,7 +26,7 @@ const OneRoutine = (props) => {
             <span className="label">Name:</span> {oneRoutine.name}
           </h5>
           <div className="card-text" style={{ maxWidth: '400px', overflowY: 'auto' }}>
-            <span className="label">Exercise:</span>
+            <span className="label">Exercises:</span>
             {oneRoutine.exercise &&
               oneRoutine.exercise.map((exercise, index) => (
                 <p key={index} className="mb-0">

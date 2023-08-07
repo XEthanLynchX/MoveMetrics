@@ -15,6 +15,20 @@ const routinesReducer = (state, action) => {
       return { 
         routines: [action.payload, ...state.routines ]
       }
+    case 'UPDATE_ROUTINE':
+      const updatedRoutine = action.payload;
+      const updatedRoutines = state.routines.map(routine => {
+        if (routine.id === updatedRoutine.id) {
+          return updatedRoutine;
+        }
+        return routine;
+      });
+      return { routines: updatedRoutines };
+    case 'DELETE_ROUTINE':
+      return {
+        ...state,
+        routines: state.routines.filter(routine => routine._id !== action.payload)
+      }
     default:
       return state;
   }

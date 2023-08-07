@@ -6,13 +6,13 @@ import '../App.css';
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useRoutinesContext } from "../hooks/useRoutinesContext";
-import MoveMetrics from '../imgs/MoveMetrics.png';
 
 
 const DisplayAll = () => {
   // const [routine, setRoutine] = useState([]);
   const { logout } = useLogout();
-  const { user } = useAuthContext();
+  const user = JSON.parse(localStorage.getItem("user"));
+
   
   // these have to make these to different variables 
   //  we set the state and then use that state to set the routines
@@ -70,7 +70,7 @@ return (
   <div style={{ height: '100vh', backgroundColor: 'white', color: 'green' }}>
     <header style={{ backgroundColor: 'gray', color: 'white', padding: '5px', textAlign: 'center' }}>
       <h1 className="Move" style={{textAlign: "left"}}>MoveMetrics</h1>
-      {!user && (
+      {user && (
             <div>
               <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
               <button className="btn btn-danger" onClick={handleLogout}>Logout</button>

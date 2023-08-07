@@ -1,4 +1,4 @@
-import {createContext,useContext, useReducer} from 'react';
+import {createContext, useReducer} from 'react';
 
 export const RoutinesContext = createContext();
 //the children prop is the component that is wrapped by the context provider

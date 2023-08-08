@@ -28,7 +28,7 @@ const exerciseSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Exercise sets is required."],
     min : [1, "Exercise sets must be at least 1."],
-    max : [100, "Exercise sets must be less than 100."],
+    max : [10, "Exercise sets must be less than 10."],
   },
 
   note: {

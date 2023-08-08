@@ -54,6 +54,7 @@
   margin-bottom: 5px;
   font-size: 32px;
   font-weight: bold; /* Make the title bold */
+  text-shadow: 2px 2px #000000;
 }
 
 .DisplayAllCard {
@@ -62,7 +63,7 @@
   padding: 10px;
   font-weight: bold;
   text-align: left;
-
+  
 }
 
 .OneCard {
@@ -76,6 +77,7 @@
 .label {
   font-weight: bold;
   font-size: 24px;
+  
 }
 
 .card-text {

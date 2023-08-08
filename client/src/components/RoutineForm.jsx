@@ -40,31 +40,29 @@ const RoutineForm = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-    <div className="col-8">
-      <div className="card bg-black text-white">
-        <div className="card-header">
-          <Link to="/" className="btn btn-primary me-3">Home</Link>
-          {/* <button className="btn  btn-primary">Logout</button> */}
-        </div>
-        <div className="card-body">
-        <h5 className="card-title">Add a New Routine!</h5>
-
-        <form>
-          <div className="form-group">
-          
-              <label htmlFor="name" className="label">Routine Name:</label>
-              <input
-                className="form-control"
-                type="text"
-                name="name"
-                id="name"
-                placeholder='Name'
-                value={name}
-                onChange={(e) => { setName(e.target.value) }}
-              />
-           
-           {errors.name && <p className="error-message">{errors.name.message}</p>}
+    <div className="display-all-container">
+      <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow">
+        <h1 className="Move" style={{ textAlign: 'left', marginTop: "2%", textShadow: "2px 2px black" }}>MoveMetrics</h1>
+        <Link to="/" className="btn btn-primary me-3">Home</Link>
+      </header>
+      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <div className="col-8">
+          <div className="card bg-secondary text-white">
+            <div className="card-body">
+              <h5 className="card-title">Add a New Routine!</h5>
+              <form>
+                <div className="form-group">
+                  <label htmlFor="name" className="label">Routine Name:</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder='Name'
+                    value={name}
+                    onChange={(e) => { setName(e.target.value) }}
+                  />
+                  {errors.name && <p className="error-message">{errors.name.message}</p>}
            
         
             <label htmlFor="time" className="label">Time:</label>
@@ -109,6 +107,7 @@ const RoutineForm = () => {
     </div>
   </div>
 </div>
-  ) 
-}
+</div>
+  );
+};
 export default RoutineForm;

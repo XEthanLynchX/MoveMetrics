@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 
-//This is going to be the blueprint for our Routine objects in our database
-//We are going to use this blueprint in our controller file
 const routineSchema = new mongoose.Schema({
   name: { 
     type: String,
@@ -11,11 +9,10 @@ const routineSchema = new mongoose.Schema({
     maxlength: [16, "Routine name must be less than 16 characters long."]
   },
 
-  exercise: { 
-     type: mongoose.Schema.Types.ObjectId,
-      ref: 'Exercise',
-      default: null ,
-  },
+  exercises: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Exercise',
+  }],
 
   time: {
     type: Number,
@@ -27,8 +24,6 @@ const routineSchema = new mongoose.Schema({
   difficulty: {
       type: Number,
       required: [true, "Routine difficulty is required."],
-      min: [1, "Routine difficulty must be at least 1."],
-      max: [5, "Routine difficulty must be 5 or less."]
     },
 
   description: {
@@ -41,10 +36,3 @@ const routineSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 module.exports = mongoose.model("Routine", routineSchema);
-
- 
-
-
-
-
-

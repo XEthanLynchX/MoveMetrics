@@ -2,7 +2,14 @@ const mongoose = require("mongoose");
 
 //This is going to be the blueprint for our Exercise objects in our database
 //We are going to use this blueprint in our controller file
+//this has to associate with the routine model
 const exerciseSchema = new mongoose.Schema({
+  routineId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Routine',
+    required: true,
+  },
+  
   name: {
     type: String,
     required: [true, "Exercise name is required."],
@@ -31,9 +38,9 @@ const exerciseSchema = new mongoose.Schema({
     max : [10, "Exercise sets must be less than 10."],
   },
 
-  note: {
+  instructions: {
     type: String,
-    maxlength: [255, "Exercise note must be less than 255 characters long."],
+    maxlength: [255, "Exercise instructions must be less than 255 characters long."],
   }
 
 }, {timestamps: true});

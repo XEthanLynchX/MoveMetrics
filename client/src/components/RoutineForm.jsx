@@ -45,7 +45,7 @@ const RoutineForm = () => {
         <h1 className="Move" style={{ textAlign: 'left', marginTop: "2%", textShadow: "2px 2px black" }}>MoveMetrics</h1>
         <Link to="/" className="btn btn-primary me-3">Home</Link>
       </header>
-      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "70vh" }}>
         <div className="col-8">
           <div className="card bg-secondary text-white">
             <div className="card-body">
@@ -77,16 +77,25 @@ const RoutineForm = () => {
             />
 
             {errors.time && <p className="error-message">{errors.time.message}</p>}
-            <label htmlFor="difficulty" className="label">Difficulty:</label>
-            <input
+
+            <label htmlFor="difficulty" className="label">
+              Difficulty:
+            </label>
+            <select
               className="form-control"
-              type="number"
               name="difficulty"
               id="difficulty"
-              placeholder='Difficulty'
               value={difficulty}
-              onChange={(e) => { setDifficulty(e.target.value) }}
-            />
+              onChange={(e) => setDifficulty(e.target.value)}
+            >
+              <option value="1">Beginner</option>
+              <option value="2">Intermediate</option>
+              <option value="3">Expert</option>
+            
+            </select>
+      {errors.difficulty && (
+        <p className="error-message">{errors.difficulty.message}</p>
+      )}
             {errors.difficulty && <p className="error-message">{errors.difficulty.message}</p>}
 
             <label htmlFor="description" className="label">Description:</label>

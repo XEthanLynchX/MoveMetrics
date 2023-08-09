@@ -7,6 +7,7 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useRoutinesContext } from "../hooks/useRoutinesContext";
 import trash from "../imgs/trash.png";
+import MoveMetricsLogo from "../imgs/MoveMetricsLogo.png";
 import formatDistanceTowNow from "date-fns/formatDistanceToNow";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { useState } from "react";
@@ -45,6 +46,19 @@ const DisplayAll = () => {
     setShowConfirmation(true);
   };
 
+  const getDifficultyText = (difficulty) => {
+    switch (difficulty) {
+      case 1:
+        return "Beginner";
+      case 2:
+        return "Intermediate";
+      case 3:
+        return "Expert";
+      default:
+        return "Unknown";
+    }
+  };
+
 
   const confirmDelete = () => {
     axios
@@ -77,19 +91,28 @@ const DisplayAll = () => {
 
 return (
   <div className="display-all-container">
-    <header className=" bg-secondary bg-opacity-4  bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow" >
-      <h1 className="Move" style={{ textAlign: 'left', marginTop: "2%", textShadow: "2px 2px black" }}>MoveMetrics</h1>
-      {user ? (
-        <div>
-          <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
-          <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <Link to="/login" className="btn btn-primary me-3">Login</Link>
-          <Link to="/signup" className="btn btn-primary">Sign Up</Link>
-        </div>
-      )}
+    <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow d-flex justify-content-between align-items-end">
+      <div>
+        <h1 className="Move" style={{ textShadow: "2px 2px black" }}>MoveMetrics</h1>
+      </div>
+
+      <div style={{marginRight: "10%"}}>
+        {user ? (
+          <div>
+            <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
+            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+          </div>
+        ) : (
+          <div>
+            <Link to="/login" className="btn btn-primary me-3">Login</Link>
+            <Link to="/signup" className="btn btn-primary">Sign Up</Link>
+          </div>
+        )}
+      </div>
+      
+      <div>
+        <img src={MoveMetricsLogo} alt="MoveMetricsLogo" />
+      </div>
     </header>
     <div className="p-4">
       <div className="row">
@@ -102,7 +125,10 @@ return (
                 </Link>
                 <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
                 <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
-                <p className="card-text"><span className="label text-black">Description:</span> {routine.description}</p>
+                <p className="card-text">
+                <span className="label text-black">Difficulty:</span>{" "}
+                {getDifficultyText(routine.difficulty)}
+              </p>
                 <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt),{addsuffix:true})} ago</p>
                 <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                   <img className="delete-icon" src={trash} alt="Delete" />

@@ -20,9 +20,9 @@ const ExerciseForm = () => {
       .post('http://localhost:8000/api/exercises', {
         routineId,
         name,
-        sets,
-        reps,
         load,
+        reps,
+        sets,
         instructions
       })
       .then((res) => {
@@ -52,7 +52,7 @@ const ExerciseForm = () => {
                 value={name}
                 onChange={(e) => { setName(e.target.value) }}
               />
-              {errors.name && <p className="error-message">{errors.name.message}</p>}
+             {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
 
               <label htmlFor="sets" className="label">Sets:</label>
               <input
@@ -65,7 +65,7 @@ const ExerciseForm = () => {
                 onChange={(e) => { setSets(e.target.value) }}
               />
 
-              {errors.sets && <p className="error-message">{errors.sets.message}</p>}
+              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
 
               <label htmlFor="reps" className="label">Reps:</label>
               <input
@@ -78,7 +78,7 @@ const ExerciseForm = () => {
                 onChange={(e) => { setReps(e.target.value) }}
               />
 
-              {errors.reps && <p className="error-message">{errors.reps.message}</p>}
+              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}   
 
               <label htmlFor="load" className="label">Load:</label>
               <input
@@ -91,7 +91,7 @@ const ExerciseForm = () => {
                 onChange={(e) => { setLoad(e.target.value) }}
               />
 
-              {errors.load && <p className="error-message">{errors.load.message}</p>}
+              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
 
               <label htmlFor="instructions" className="label">Instructions:</label>
               <input
@@ -104,7 +104,7 @@ const ExerciseForm = () => {
                 onChange={(e) => { setInstructions(e.target.value) }}
               />
 
-              {errors.instructions && <p className="error-message">{errors.instructions.message}</p>}
+              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
 
               
             </div>

@@ -16,9 +16,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<DisplayAll />} />
-          <Route path="/routines/:id" element={<OneRoutine />} />
+          <Route path="/:id" element={<OneRoutine />} />
           <Route path="/update/:id" element={<UpdateRoutine />} />
-          <Route path="/new" element={<RoutineForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

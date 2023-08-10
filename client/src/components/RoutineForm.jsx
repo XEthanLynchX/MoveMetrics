@@ -3,7 +3,6 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useRoutinesContext } from '../hooks/useRoutinesContext';
-import { useNavigate } from 'react-router-dom';
 
 const RoutineForm = () => {
   const [name, setName] = useState('');

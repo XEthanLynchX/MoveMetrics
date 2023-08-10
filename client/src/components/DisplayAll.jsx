@@ -120,7 +120,7 @@ return (
             <div className="mb-4" key={routine._id}>
               <div className="DisplayAllCard border rounded p-3 position-relative">
                 <div className="card-body">
-                  <Link to={`/routines/${routine._id}`} style={{ textDecoration: 'none' }}>
+                  <Link to={`/${routine._id}`} style={{ textDecoration: 'none' }}>
                     <h5 className="routine-title">{routine.name}</h5>
                   </Link>
                   <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>

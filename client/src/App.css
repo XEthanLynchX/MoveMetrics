@@ -121,3 +121,35 @@
   height: auto;
   border-radius: 100%;
 }
+
+.routine-cards-container {
+  flex: 1; /* Take up available space */
+  padding-right: 20px; /* Add spacing between cards and form */
+}
+
+.routine-form-container {
+  width: 35%; /* Set a specific width for the form */
+}
+
+.sticky-routine-form {
+  position: sticky;
+  top: 50px; /* Adjust this value based on your design */
+}
+
+.add{
+  font-family: "Blippo, fantasy";
+  font-size: 32px;
+  font-weight: bold;
+  color: lightgreen;
+  text-shadow: 2px 2px #000000;
+  margin-bottom: 20px;
+}
+
+.email{
+  font-family: "Blippo, fantasy";
+  font-size: 24px;
+  font-weight: bold;
+  color: lightgreen;
+  text-shadow: 2px 2px #000000;
+  margin-bottom: 20px;
+}

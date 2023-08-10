@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
+import { useRoutinesContext } from '../hooks/useRoutinesContext';
+import { useNavigate } from 'react-router-dom';
 
 const RoutineForm = () => {
   const [name, setName] = useState('');
-  const [exercise, setExercise] = useState([]);
   const [time, setTime] = useState('');
-  const [difficulty, setDifficulty] = useState('');
+  const [difficulty, setDifficulty] = useState('')
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
+  const { dispatch } = useRoutinesContext();
 
-
-  const navigate = useNavigate();
-
-
-
+  
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
- 
-
+  
     axios
       .post('http://localhost:8000/api/routines', {
         name,
@@ -31,7 +26,8 @@ const RoutineForm = () => {
       })
       .then((res) => {
         console.log(res);
-         navigate("/");
+        dispatch({ type: "CREATE_ROUTINE", payload: res.data }); // Dispatch the action
+        
       })
       .catch((err) => {
         console.log(err.response.data.errors);
@@ -40,16 +36,10 @@ const RoutineForm = () => {
   };
 
   return (
-    <div className="display-all-container">
-      <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow">
-        <h1 className="Move" style={{ textAlign: 'left', marginTop: "2%", textShadow: "2px 2px black" }}>MoveMetrics</h1>
-        <Link to="/" className="btn btn-primary me-3">Home</Link>
-      </header>
-      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "70vh" }}>
-        <div className="col-8">
-          <div className="card bg-secondary text-white">
-            <div className="card-body">
-              <h5 className="card-title">Add a New Routine!</h5>
+    <div className="col-12">
+      <div className="card bg-secondary text-white">
+        <div className="card-body">
+          <h5 className="card-title add">Add a New Routine!</h5>
               <form>
                 <div className="form-group">
                   <label htmlFor="name" className="label">Routine Name:</label>
@@ -88,6 +78,7 @@ const RoutineForm = () => {
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
             >
+              <option value="">-- Select Difficulty --</option>
               <option value="1">Beginner</option>
               <option value="2">Intermediate</option>
               <option value="3">Expert</option>
@@ -96,7 +87,7 @@ const RoutineForm = () => {
       {errors.difficulty && (
         <p className="error-message">{errors.difficulty.message}</p>
       )}
-            {errors.difficulty && <p className="error-message">{errors.difficulty.message}</p>}
+            
 
             <label htmlFor="description" className="label">Description:</label>
             <input
@@ -112,11 +103,9 @@ const RoutineForm = () => {
           </div>
           <button type="submit" className="btn btn-primary" onClick={onSubmitHandler}>Submit</button>
         </form>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-</div>
   );
 };
 export default RoutineForm;

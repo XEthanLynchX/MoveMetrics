@@ -4,17 +4,16 @@ import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useRoutinesContext } from "../hooks/useRoutinesContext";
 import trash from "../imgs/trash.png";
 import MoveMetricsLogo from "../imgs/MoveMetricsLogo.png";
 import formatDistanceTowNow from "date-fns/formatDistanceToNow";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { useState } from "react";
+import RoutineForm from "./RoutineForm";
 
 
 const DisplayAll = () => {
-  
   const { logout } = useLogout();
   const user = JSON.parse(localStorage.getItem("user"));
   // these have to make these to different variables 
@@ -96,10 +95,10 @@ return (
         <h1 className="Move" style={{ textShadow: "2px 2px black" }}>MoveMetrics</h1>
       </div>
 
-      <div style={{marginRight: "10%"}}>
+      <div style={{ marginRight: "10%" }}>
         {user ? (
           <div>
-            <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
+            <p className="email"> {user.email}</p>
             <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
           </div>
         ) : (
@@ -109,42 +108,49 @@ return (
           </div>
         )}
       </div>
-      
+
       <div>
         <img src={MoveMetricsLogo} alt="MoveMetricsLogo" />
       </div>
     </header>
-    <div className="p-4">
-      <div className="row">
-        {routines && routines.map((routine) => (
-          <div className="col-md-6 mb-4" key={routine._id}>
-            <div className="DisplayAllCard border rounded p-3 position-relative">
-              <div className="card-body">
-                <Link to={`/routines/${routine._id}`} style={{ textDecoration: 'none' }}>
-                  <h5 className="routine-title">{routine.name}</h5>
-                </Link>
-                <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
-                <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
-                <p className="card-text">
-                <span className="label text-black">Difficulty:</span>{" "}
-                {getDifficultyText(routine.difficulty)}
-              </p>
-                <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt),{addsuffix:true})} ago</p>
-                <button className="delete-button" onClick={() => handleDelete(routine._id)}>
-                  <img className="delete-icon" src={trash} alt="Delete" />
-                </button>
-                          <DeleteConfirmation
-                  show={showConfirmation}
-                  onClose={() => setShowConfirmation(false)}
-                  onConfirm={confirmDelete}
-                />
+    <div className="p-4 d-flex">
+      <div className="routine-cards-container">
+          {/* Render your routines on the left side */}
+          {routines && routines.map((routine) => (
+            <div className="mb-4" key={routine._id}>
+              <div className="DisplayAllCard border rounded p-3 position-relative">
+                <div className="card-body">
+                  <Link to={`/routines/${routine._id}`} style={{ textDecoration: 'none' }}>
+                    <h5 className="routine-title">{routine.name}</h5>
+                  </Link>
+                  <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
+                  <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
+                  <p className="card-text">
+                    <span className="label text-black">Difficulty:</span>{" "}
+                    {getDifficultyText(routine.difficulty)}
+                  </p>
+                  <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
+                  <button className="delete-button" onClick={() => handleDelete(routine._id)}>
+                    <img className="delete-icon" src={trash} alt="Delete" />
+                  </button>
+                  <DeleteConfirmation
+                    show={showConfirmation}
+                    onClose={() => setShowConfirmation(false)}
+                    onConfirm={confirmDelete}
+                  />
+                </div>
               </div>
             </div>
+          ))}
+        </div>
+        <div className="routine-form-container">
+          <div className="sticky-routine-form">
+            <RoutineForm />
           </div>
-        ))}
+        </div>
       </div>
     </div>
-  </div>
+
 );
 };
         

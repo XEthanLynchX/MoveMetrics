@@ -12,16 +12,25 @@ const RoutineForm = () => {
   const [errors, setErrors] = useState({});
   const { dispatch } = useRoutinesContext();
 
+
+  const capitalizeFirstLetters = (input) => {
+    return input
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
   
   const onSubmitHandler = (e) => {
     e.preventDefault();
   
+    const capitalizedDescription = capitalizeFirstLetters(description);
+
     axios
       .post('http://localhost:8000/api/routines', {
-        name,
+       name: capitalizeFirstLetters(name),
         time,
         difficulty,
-        description
+        description: capitalizedDescription,
       })
       .then((res) => {
         console.log(res);
@@ -91,7 +100,7 @@ const RoutineForm = () => {
             <label htmlFor="description" className="label">Description:</label>
             <input
               className="form-control"
-              type="text"
+              type="text-area"
               name="description"
               id="description"
               placeholder='Description'

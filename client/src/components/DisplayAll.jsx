@@ -89,7 +89,7 @@ const DisplayAll = () => {
 //  }
 
 return (
-  <div className="display-all-container">
+  <div className="the-container">
     <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow d-flex justify-content-between align-items-end">
       <div>
         <h1 className="Move" style={{ textShadow: "2px 2px black" }}>MoveMetrics</h1>
@@ -124,10 +124,13 @@ return (
                     <h5 className="title">{routine.name}</h5>
                   </Link>
                   <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
-                  <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
+                 
                   <p className="card-text">
                     <span className="label text-black">Difficulty:</span>{" "}
                     {getDifficultyText(routine.difficulty)}
+                  </p>
+                  <p className="card-text" style={{ wordWrap: "break-word" }}>
+                  {routine.description}
                   </p>
 
                   <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
@@ -145,8 +148,8 @@ return (
             </div>
           ))}
         </div>
-        <div className="routine-form-container">
-          <div className="sticky-routine-form">
+        <div className="sticky-form-container">
+          <div className="sticky-form">
             <RoutineForm />
           </div>
         </div>

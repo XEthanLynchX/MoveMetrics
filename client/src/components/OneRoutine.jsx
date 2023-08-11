@@ -74,7 +74,7 @@ const OneRoutine = () => {
   };
 
   return (
-    <div className="display-all-container">
+    <div className="the-container">
       <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow d-flex justify-content-between align-items-end">
         <div>
           <h1 className="Move" style={{ textShadow: "2px 2px black" }}>MoveMetrics</h1>
@@ -100,12 +100,13 @@ const OneRoutine = () => {
         </div>
       </header>
 
-      <div className="container mt-4">
-        <div className="row">
-          <div className="col-md-8">
+      <div className="p-4 d-flex">
+        <div className="routine-cards-container">
+      
             {/* Map through the exercises and display them */}
             {exercises.map((exercise) => (
               <div key={exercise._id} className="card mb-3">
+                 <div className="DisplayAllCard border rounded p-3 position-relative">
                 <div className="card-body">
                   <h5 className="card-title title">{exercise.name}</h5>
                   <p className="card-text label"><span className="label text-black">Sets: </span> {exercise.sets}</p>
@@ -123,16 +124,19 @@ const OneRoutine = () => {
                     onClose={() => setShowConfirmation(false)}
                     onConfirm={confirmDelete}
                   />
-                </div>
+                  </div>
+                  </div>
               </div>
             ))}
           </div>
-          <div className="col-md-4">
+          <div className="sticky-form-container">
+            <div className=" sticky-form">
             <ExerciseForm updateExercises={updateExercises} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+  
   );
 };
 

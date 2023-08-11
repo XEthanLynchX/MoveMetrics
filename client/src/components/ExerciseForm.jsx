@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+
 
 const ExerciseForm = ({updateExercises}) => {
   const [name, setName] = useState('');
@@ -15,18 +15,27 @@ const ExerciseForm = ({updateExercises}) => {
   const [errors, setErrors] = useState({});
 
 
-  console.log(routineId);
+  const capitalizeFirstLetters = (input) => {
+    return input
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
+
+    const capitalizedInstructions = capitalizeFirstLetters(instructions);
 
     axios
       .post('http://localhost:8000/api/exercises', {
         routineId,
-        name,
+        name: capitalizeFirstLetters(name),
         load,
         reps,
         sets,
-        instructions
+        instructions: capitalizedInstructions,
       })
       .then((res) => {
         console.log(res);

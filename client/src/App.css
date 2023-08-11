@@ -37,7 +37,7 @@
   }
 }
 
-.display-all-container {
+.the-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -125,16 +125,18 @@
 .routine-cards-container {
   flex: 1; /* Take up available space */
   padding-right: 20px; /* Add spacing between cards and form */
+  width: 20%;
 }
 
-.routine-form-container {
+.sticky-form-container {
   width: 35%; /* Set a specific width for the form */
 }
 
-.sticky-routine-form {
+.sticky-form {
   position: sticky;
   top: 50px; /* Adjust this value based on your design */
 }
+
 
 .add{
   font-family: "Blippo, fantasy";
@@ -152,4 +154,14 @@
   color: lightgreen;
   text-shadow: 2px 2px #000000;
   margin-bottom: 20px;
+}
+
+.long-text {
+  width: 100%; /* Set the width as per your design */
+  max-height: 100px; /* Set the maximum height as per your design */
+  overflow: auto; /* Add scrollbars if the content overflows */
+  border: 1px solid #ccc; /* Add a border for visual distinction */
+  padding: 10px; /* Add padding for better visual appearance */
+  white-space: pre-line; /* Allow line breaks */
+  
 }

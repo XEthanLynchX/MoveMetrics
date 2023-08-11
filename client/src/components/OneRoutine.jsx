@@ -7,6 +7,9 @@ import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import MoveMetricsLogo from "../imgs/MoveMetricsLogo.png";
 import ExerciseForm from './ExerciseForm'; // Import the ExerciseForm component
+import formatDistanceTowNow from "date-fns/formatDistanceToNow";
+import DeleteConfirmation from "./DeleteConfirmation2";
+import trash from "../imgs/trash.png";
 
 const OneRoutine = () => {
   const { id } = useParams();
@@ -15,9 +18,17 @@ const OneRoutine = () => {
   const { state } = useAuthContext();
   const { user } = state;
   const { logout } = useLogout();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [exerciseToDelete, setexerciseToDelete] = useState(null);
+  
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleDelete = (deleteId) => {
+    setexerciseToDelete(deleteId);
+    setShowConfirmation(true);
   };
   useEffect(() => {
     axios
@@ -36,6 +47,31 @@ const OneRoutine = () => {
       })
       .catch((err) => console.log(err));
   }, [id]);
+
+  const updateExercises = () => {
+    axios
+      .get(`http://localhost:8000/api/routines/${id}/exercises`)
+      .then((res) => {
+        console.log(res.data);
+        setExercises(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const confirmDelete = () => {
+    axios
+      .delete(`http://localhost:8000/api/exercises/${exerciseToDelete}`)
+      .then((res) => {
+        console.log("Routine deleted:", res.data);
+        updateExercises();
+      })
+      .catch((err) => {
+        console.error("Error deleting exercise:", err.response);
+      })
+      .finally(() => {
+        setShowConfirmation(false);
+      });
+  };
 
   return (
     <div className="display-all-container">
@@ -71,17 +107,28 @@ const OneRoutine = () => {
             {exercises.map((exercise) => (
               <div key={exercise._id} className="card mb-3">
                 <div className="card-body">
-                  <h5 className="card-title">{exercise.name}</h5>
-                  <p className="card-text">Sets: {exercise.sets}</p>
-                  <p className="card-text">Reps: {exercise.reps}</p>
-                  <p className="card-text">Load: {exercise.load}</p>
-                  <p className="card-text">Instructions: {exercise.instructions}</p>
+                  <h5 className="card-title title">{exercise.name}</h5>
+                  <p className="card-text label"><span className="label text-black">Sets: </span> {exercise.sets}</p>
+                  <p className="card-text label"><span className="label text-black">Reps:</span> {exercise.reps}</p>
+                  <p className="card-text label"><span className="label text-black">Load: </span>{exercise.load}</p>
+                  <p className="card-text label"><span className="label text-black">Instructions: </span>{exercise.instructions}</p>
+
+                  <p className="card-text label"><span className="label text-black">Created: </span>{formatDistanceTowNow(new Date(exercise.createdAt), { addsuffix: true })} ago</p>
+
+                  <button className="delete-button" onClick={() => handleDelete(exercise._id)}>
+                    <img className="delete-icon" src={trash} alt="Delete" />
+                  </button>
+                  <DeleteConfirmation
+                    show={showConfirmation}
+                    onClose={() => setShowConfirmation(false)}
+                    onConfirm={confirmDelete}
+                  />
                 </div>
               </div>
             ))}
           </div>
           <div className="col-md-4">
-            <ExerciseForm routineId={id} />
+            <ExerciseForm updateExercises={updateExercises} />
           </div>
         </div>
       </div>

@@ -3,16 +3,19 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const ExerciseForm = () => {
+const ExerciseForm = ({updateExercises}) => {
   const [name, setName] = useState('');
   const [sets, setSets] = useState('');
   const [reps, setReps] = useState('');
   const [load, setLoad] = useState('');
   const [instructions, setInstructions] = useState('');
-  const { routineId } = useParams();
+  const { id: routineId } = useParams();
   const [errors, setErrors] = useState({});
 
+
+  console.log(routineId);
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -27,6 +30,7 @@ const ExerciseForm = () => {
       })
       .then((res) => {
         console.log(res);
+        updateExercises();
         // Handle success action, if needed
       })
       .catch((err) => {
@@ -54,6 +58,7 @@ const ExerciseForm = () => {
               />
              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
 
+
               <label htmlFor="sets" className="label">Sets:</label>
               <input
                 className="form-control"
@@ -65,7 +70,8 @@ const ExerciseForm = () => {
                 onChange={(e) => { setSets(e.target.value) }}
               />
 
-              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
+              {errors && errors.sets && <p className="error-message">{errors.sets.message}</p>}
+
 
               <label htmlFor="reps" className="label">Reps:</label>
               <input
@@ -78,7 +84,8 @@ const ExerciseForm = () => {
                 onChange={(e) => { setReps(e.target.value) }}
               />
 
-              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}   
+              {errors && errors.reps && <p className="error-message">{errors.reps.message}</p>}
+  
 
               <label htmlFor="load" className="label">Load:</label>
               <input
@@ -91,7 +98,8 @@ const ExerciseForm = () => {
                 onChange={(e) => { setLoad(e.target.value) }}
               />
 
-              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
+              {errors && errors.load && <p className="error-message">{errors.load.message}</p>}
+
 
               <label htmlFor="instructions" className="label">Instructions:</label>
               <input
@@ -104,7 +112,8 @@ const ExerciseForm = () => {
                 onChange={(e) => { setInstructions(e.target.value) }}
               />
 
-              {errors && errors.name && <p className="error-message">{errors.name.message}</p>}
+              {errors && errors.instructions && <p className="error-message">{errors.instructions.message}</p>}
+
 
               
             </div>

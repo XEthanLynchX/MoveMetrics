@@ -8,7 +8,7 @@ import { useRoutinesContext } from "../hooks/useRoutinesContext";
 import trash from "../imgs/trash.png";
 import MoveMetricsLogo from "../imgs/MoveMetricsLogo.png";
 import formatDistanceTowNow from "date-fns/formatDistanceToNow";
-import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteConfirmation from "./DeleteConfirmation1";
 import { useState } from "react";
 import RoutineForm from "./RoutineForm";
 
@@ -121,7 +121,7 @@ return (
               <div className="DisplayAllCard border rounded p-3 position-relative">
                 <div className="card-body">
                   <Link to={`/${routine._id}`} style={{ textDecoration: 'none' }}>
-                    <h5 className="routine-title">{routine.name}</h5>
+                    <h5 className="title">{routine.name}</h5>
                   </Link>
                   <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
                   <p className="card-text"><span className="label text-black">Difficulty:</span> {routine.difficulty}/5</p>
@@ -129,7 +129,9 @@ return (
                     <span className="label text-black">Difficulty:</span>{" "}
                     {getDifficultyText(routine.difficulty)}
                   </p>
+
                   <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
+
                   <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                     <img className="delete-icon" src={trash} alt="Delete" />
                   </button>

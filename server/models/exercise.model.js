@@ -40,6 +40,8 @@ const exerciseSchema = new mongoose.Schema({
 
   instructions: {
     type: String,
+    required: [true, "Exercise instructions are required."],
+    minlength: [3, "Exercise instructions must be at least 3 characters long."],
     maxlength: [255, "Exercise instructions must be less than 255 characters long."],
   }
 

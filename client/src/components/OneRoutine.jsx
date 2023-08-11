@@ -6,18 +6,19 @@ import '../App.css';
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import MoveMetricsLogo from "../imgs/MoveMetricsLogo.png";
+import ExerciseForm from './ExerciseForm'; // Import the ExerciseForm component
 
 const OneRoutine = () => {
   const { id } = useParams();
   const [oneRoutine, setOneRoutine] = useState({});
-  const {state} = useAuthContext();
-  const { user } = state
+  const [exercises, setExercises] = useState([]); // New state for exercises
+  const { state } = useAuthContext();
+  const { user } = state;
   const { logout } = useLogout();
 
   const handleLogout = () => {
     logout();
   };
-
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/routines/${id}`)
@@ -26,9 +27,15 @@ const OneRoutine = () => {
         setOneRoutine(res.data);
       })
       .catch((err) => console.log(err));
+  
+    axios
+      .get(`http://localhost:8000/api/routines/${id}/exercises`)
+      .then((res) => {
+        console.log(res.data);
+        setExercises(res.data);
+      })
+      .catch((err) => console.log(err));
   }, [id]);
-
-
 
   return (
     <div className="display-all-container">
@@ -41,7 +48,7 @@ const OneRoutine = () => {
           {user ? (
             <div>
               <h1 style={{ textShadow: "2px 2px lightGreen", color: "black" }}>{oneRoutine.name}</h1>
-              <Link to="/new" className="btn btn-primary me-3">Create New Routine</Link>
+              <Link to="/" className="btn btn-primary me-3">Home</Link>
               <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
             </div>
           ) : (
@@ -56,45 +63,30 @@ const OneRoutine = () => {
           <img src={MoveMetricsLogo} alt="MoveMetricsLogo" />
         </div>
       </header>
+
+      <div className="container mt-4">
+        <div className="row">
+          <div className="col-md-8">
+            {/* Map through the exercises and display them */}
+            {exercises.map((exercise) => (
+              <div key={exercise._id} className="card mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">{exercise.name}</h5>
+                  <p className="card-text">Sets: {exercise.sets}</p>
+                  <p className="card-text">Reps: {exercise.reps}</p>
+                  <p className="card-text">Load: {exercise.load}</p>
+                  <p className="card-text">Instructions: {exercise.instructions}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="col-md-4">
+            <ExerciseForm routineId={id} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default OneRoutine;
-
-
-{/* <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-<div className="OneCard">
-  <div className="card-body">
-    <h5 className="card-title">
-      <span className="label">Name:</span> {oneRoutine.name}
-    </h5>
-    <div className="card-text" style={{ maxWidth: '400px', overflowY: 'auto' }}>
-      <span className="label">Exercises:</span>
-      {oneRoutine.exercise &&
-        oneRoutine.exercise.map((exercise, index) => (
-          <p key={index} className="mb-0">
-            {exercise}
-          </p>
-        ))}
-    </div>
-    <p className="card-text">
-      <span className="label">Time:</span> {oneRoutine.time}
-    </p>
-    <p className="card-text">
-      <span className="label">Difficulty:</span> {oneRoutine.difficulty}/5
-    </p>
-    <p className="card-text" style={{ maxWidth: '400px', overflowY: 'auto' }}>
-      <span className="label">Description:</span> {oneRoutine.description}
-    </p>
-    <div className="d-flex justify-content-center">
-      <Link to={`/update/${id}`} className="btn btn-primary me-3">
-        Edit Routine Details
-      </Link>
-      <Link to="/" className="btn btn-primary">
-        Home
-      </Link>
-    </div>
-  </div>
-</div>
-</div> */}

@@ -30,12 +30,14 @@ module.exports.createExercise = async (req, res) => {
   }
 };
 
-//To get all exercises
-module.exports.getAllExercises = (req, res) => {
-  Exercise.find()
-    .then(exercises => res.json(exercises))
-    .catch(err => res.json({message: "Something went wrong (findall)", error: err}));
-}
+exports.getAllExercisesForRoutine = async (req, res) => {
+  try {
+    const exercises = await Exercise.find({ routineId: req.params.id });
+    res.status(200).json(exercises);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 //To get one exercise
 module.exports.getOneExercise = (req, res) => {

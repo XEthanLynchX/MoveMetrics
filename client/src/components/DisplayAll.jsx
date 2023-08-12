@@ -25,15 +25,20 @@ const DisplayAll = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [routineToDelete, setRoutineToDelete] = useState(null);
   const [showUpdateForm, setShowUpdateForm] = useState(false); 
-  const [editRoutineId, setEditRoutineId] = useState(null);
+  const [editRoutineId, setEditRoutine] = useState(null);
  
   const handleLogout = () => {
     logout();
   };
 
   const handleEdit = (routine) => {
-    setEditRoutineId(routine);
+    setEditRoutine(routine);
     setShowUpdateForm(true); // Show the UpdateRoutineForm
+  };
+
+  const handleCreateNew = () => {
+    setShowUpdateForm(false); // Hide the update form
+    setEditRoutine(null); // Reset the routine being edited
   };
 
   useEffect(() => {
@@ -106,8 +111,14 @@ return (
 
       <div style={{ marginRight: "10%" }}>
         {user ? (
+          
           <div>
-            <p className="email"> {user.email}</p>
+            
+            <p className="email"> {user.email}</p>{showUpdateForm ? (
+            <button className="btn btn-primary me-3" onClick={handleCreateNew}>
+              Create New Routine
+            </button>
+          ) : null}
             <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
           </div>
         ) : (
@@ -149,6 +160,7 @@ return (
                       <button className="settings-button"  onClick={() => handleEdit(routine)}  >
                         <img className="settings-icon" src={settings} alt="Settings" />
                       </button>
+
                       <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                     <img className="delete-icon" src={trash} alt="Delete" />
                   </button>

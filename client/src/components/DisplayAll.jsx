@@ -11,6 +11,8 @@ import formatDistanceTowNow from "date-fns/formatDistanceToNow";
 import DeleteConfirmation from "./DeleteConfirmation1";
 import { useState } from "react";
 import RoutineForm from "./RoutineForm";
+import settings from "../imgs/settings.png";
+import UpdateRoutineForm from "./UpdateRoutineForm";
 
 
 const DisplayAll = () => {
@@ -22,9 +24,16 @@ const DisplayAll = () => {
   const { routines } = state;
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [routineToDelete, setRoutineToDelete] = useState(null);
+  const [showUpdateForm, setShowUpdateForm] = useState(false); 
+  const [editRoutineId, setEditRoutineId] = useState(null);
  
   const handleLogout = () => {
     logout();
+  };
+
+  const handleEdit = (routine) => {
+    setEditRoutineId(routine);
+    setShowUpdateForm(true); // Show the UpdateRoutineForm
   };
 
   useEffect(() => {
@@ -135,7 +144,12 @@ return (
 
                   <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
 
-                  <button className="delete-button" onClick={() => handleDelete(routine._id)}>
+                 
+                  <div className="button-container">
+                      <button className="settings-button"  onClick={() => handleEdit(routine)}  >
+                        <img className="settings-icon" src={settings} alt="Settings" />
+                      </button>
+                      <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                     <img className="delete-icon" src={trash} alt="Delete" />
                   </button>
                   <DeleteConfirmation
@@ -143,20 +157,24 @@ return (
                     onClose={() => setShowConfirmation(false)}
                     onConfirm={confirmDelete}
                   />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
           ))}
         </div>
         <div className="sticky-form-container">
           <div className="sticky-form">
-            <RoutineForm />
+            {showUpdateForm ? (
+              <UpdateRoutineForm routine={editRoutineId}  />
+            ) : (
+              <RoutineForm />
+            )}
           </div>
         </div>
       </div>
     </div>
-
-);
+  );
 };
         
 export default DisplayAll;

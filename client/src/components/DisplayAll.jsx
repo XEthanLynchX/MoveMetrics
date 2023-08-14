@@ -95,6 +95,7 @@ const DisplayAll = () => {
   };
   
 
+
 return (
   <div className="the-container">
     <header className="bg-secondary bg-opacity-4 bg-gradient border-bottom border-dark border-4 text-white p-3 text-center shadow d-flex justify-content-between align-items-end">

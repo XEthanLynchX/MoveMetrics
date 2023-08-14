@@ -16,16 +16,19 @@ require('./config/mongoose.config');
 
 require('dotenv').config();
 
-// Apply requireAuth middleware to all routes
-app.use(requireAuth);
-
-const AllMyRoutineRoutes = require('./routes/routine.routes');
-AllMyRoutineRoutes(app);
-
-const AllMyExerciseRoutes = require('./routes/exercise.routes');
-AllMyExerciseRoutes(app);
-
 const AllMyUserRoutes = require('./routes/user.routes');
 AllMyUserRoutes(app);
+
+const AllMyRoutineRoutes = require('./routes/routine.routes');
+const routineRouter = express.Router();
+routineRouter.use(requireAuth);
+AllMyRoutineRoutes(routineRouter);
+app.use('/api/routines', routineRouter);
+
+const AllMyExerciseRoutes = require('./routes/exercise.routes');
+const exerciseRouter = express.Router();
+exerciseRouter.use(requireAuth);
+AllMyExerciseRoutes(exerciseRouter);
+app.use('/api/exercises', exerciseRouter);
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

@@ -48,6 +48,8 @@ const ExerciseForm = ({exercise, updateExercises, onSubmission}) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
+    
+
     console.log('submitting form...');
 
     const capitalizedInstructions = capitalizeFirstLetters(instructions);

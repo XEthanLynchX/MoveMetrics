@@ -94,19 +94,6 @@ const DisplayAll = () => {
       });
   };
   
-  // const deleteRoutine = (deleteId) => {
-  //   axios.delete(`http://localhost:8000/api/routines/${deleteId}`)
-  //   .then((res) => {
-  //     console.log(res); 
-//   //     const filerteredRoutine = routine.filter((routine) =>  routine._id !== deleteId); 
-//   //     setRoutine(filerteredRoutine);
-//   //   })
-
-//     .catch((err) => {
-//       console.log("error deleting store", err.response);
-//      });
-
-//  }
 
 return (
   <div className="the-container">
@@ -141,7 +128,6 @@ return (
     </header>
     <div className="p-4 d-flex">
       <div className="routine-cards-container">
-          {/* Render your routines on the left side */}
           {routines && routines.map((routine) => (
             <div className="mb-4" key={routine._id}>
               <div className="DisplayAllCard border rounded p-3 position-relative">

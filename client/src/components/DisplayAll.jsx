@@ -41,6 +41,12 @@ const DisplayAll = () => {
     setEditRoutine(null); // Reset the routine being edited
   };
 
+  const handleUpdateSubmission = () => {
+    // Reset the editRoutine and setShowUpdateForm after a successful submission
+    setEditRoutine(null);
+    setShowUpdateForm(false);
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/routines")
@@ -178,7 +184,8 @@ return (
         <div className="sticky-form-container">
           <div className="sticky-form">
             {showUpdateForm ? (
-              <UpdateRoutineForm routine={editRoutineId}  />
+              <UpdateRoutineForm routine={editRoutineId} 
+              onSubmission={handleUpdateSubmission}/>
             ) : (
               <RoutineForm />
             )}

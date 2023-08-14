@@ -10,6 +10,8 @@ import ExerciseForm from './ExerciseForm'; // Import the ExerciseForm component
 import formatDistanceTowNow from "date-fns/formatDistanceToNow";
 import DeleteConfirmation from "./DeleteConfirmation2";
 import trash from "../imgs/trash.png";
+import settings from "../imgs/settings.png";
+import UpdateExercise from "./UpdateExercise";
 
 const OneRoutine = () => {
   const { id } = useParams();
@@ -20,6 +22,8 @@ const OneRoutine = () => {
   const { logout } = useLogout();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [exerciseToDelete, setexerciseToDelete] = useState(null);
+  const [showUpdateForm, setShowUpdateForm] = useState(false); 
+  const [editExerciseId, setEditExercise] = useState(null);
   
 
   const handleLogout = () => {
@@ -30,6 +34,23 @@ const OneRoutine = () => {
     setexerciseToDelete(deleteId);
     setShowConfirmation(true);
   };
+
+  const handleEdit = (exercise) => {
+    setEditExercise(exercise);
+    setShowUpdateForm(true); // Show the UpdateRoutineForm
+  };
+
+  const handleCreateNew = () => {
+    setShowUpdateForm(false); // Hide the update form
+    setEditExercise(null); // Reset the exercise being edited
+  };
+
+  const handleUpdateSubmission = () => {
+    // Reset the editRoutine and setShowUpdateForm after a successful submission
+    setEditExercise(null);
+    setShowUpdateForm(false);
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/routines/${id}`)
@@ -85,6 +106,11 @@ const OneRoutine = () => {
             <div>
               <h1 style={{ textShadow: "2px 2px lightGreen", color: "black" }}>{oneRoutine.name}</h1>
               <Link to="/" className="btn btn-primary me-3">Home</Link>
+              {showUpdateForm ? (
+            <button className="btn btn-primary me-3" onClick={handleCreateNew}>
+              Create New Exercise
+            </button>
+            ) : null}
               <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
             </div>
           ) : (
@@ -116,7 +142,12 @@ const OneRoutine = () => {
 
                   <p className="card-text label"><span className="label text-black">Created: </span>{formatDistanceTowNow(new Date(exercise.createdAt), { addsuffix: true })} ago</p>
 
-                  <button className="delete-button" onClick={() => handleDelete(exercise._id)}>
+                  <div className="button-container">
+                      <button className="settings-button"  onClick={() => handleEdit(exercise)}  >
+                        <img className="settings-icon" src={settings} alt="Settings" />
+                      </button>
+
+                      <button className="delete-button" onClick={() => handleDelete(exercise._id)}>
                     <img className="delete-icon" src={trash} alt="Delete" />
                   </button>
                   <DeleteConfirmation
@@ -124,6 +155,7 @@ const OneRoutine = () => {
                     onClose={() => setShowConfirmation(false)}
                     onConfirm={confirmDelete}
                   />
+                    </div>
                   </div>
                   </div>
               </div>
@@ -131,7 +163,14 @@ const OneRoutine = () => {
           </div>
           <div className="sticky-form-container">
             <div className=" sticky-form">
+            {showUpdateForm ? (
+            <UpdateExercise exercise={editExerciseId}
+            updateExercises={updateExercises}
+            onSubmission={handleUpdateSubmission}
+            />
+            ) : (
             <ExerciseForm updateExercises={updateExercises} />
+            )}
             </div>
           </div>
         </div>

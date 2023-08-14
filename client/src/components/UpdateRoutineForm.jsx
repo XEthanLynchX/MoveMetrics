@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useRoutinesContext } from '../hooks/useRoutinesContext';
 import { useEffect } from 'react';
-import { set } from 'date-fns';
 
-const UpdateRoutineForm = ({routine}) => {
+
+const UpdateRoutineForm = ({routine, onSubmission}) => {
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
   const [difficulty, setDifficulty] = useState('')
@@ -14,7 +14,7 @@ const UpdateRoutineForm = ({routine}) => {
   const [errors, setErrors] = useState({});
   const { dispatch } = useRoutinesContext();
   const [routineid, setRoutineid] = useState(null);
-
+  const [submissionStatus, setSubmissionStatus] = useState(false);
         
 
 
@@ -59,7 +59,8 @@ const UpdateRoutineForm = ({routine}) => {
       .then((res) => {
         console.log(res);
         dispatch({ type: "UPDATE_ROUTINE", payload: res.data }); // Dispatch the action
-        
+        setSubmissionStatus(true);
+        onSubmission();
       })
       .catch((err) => {
         console.log(err.response.data.errors);
@@ -71,7 +72,7 @@ const UpdateRoutineForm = ({routine}) => {
     <div className="col-12">
       <div className="card bg-secondary text-white">
         <div className="card-body">
-          <h5 className="card-title add">Update Your Routine!</h5>
+          <h5 className="card-title add">Update Routine!</h5>
               <form>
                 <div className="form-group">
                   <label htmlFor="name" className="label">Routine Name:</label>

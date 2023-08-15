@@ -23,12 +23,12 @@ const AllMyRoutineRoutes = require('./routes/routine.routes');
 const routineRouter = express.Router();
 routineRouter.use(requireAuth);
 AllMyRoutineRoutes(routineRouter);
-app.use('/api/routines', routineRouter);
+app.use(routineRouter);
 
 const AllMyExerciseRoutes = require('./routes/exercise.routes');
 const exerciseRouter = express.Router();
 exerciseRouter.use(requireAuth);
 AllMyExerciseRoutes(exerciseRouter);
-app.use('/api/exercises', exerciseRouter);
+app.use(exerciseRouter);
 
 app.listen(port, () => console.log(`Listening on port: ${port}`));

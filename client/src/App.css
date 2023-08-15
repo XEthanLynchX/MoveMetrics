@@ -86,9 +86,14 @@
 }
 
 .error-message {
-  color: yellow;
+  align-items: center;
+  justify-content: center;
+  background-color: #a3a2a2;
+  color: #ff0019;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 16px;
   font-weight: bold;
-  font-size: 20px;
 }
 
 .error-message2 {

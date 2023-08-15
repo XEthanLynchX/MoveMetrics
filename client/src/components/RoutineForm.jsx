@@ -3,8 +3,12 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useRoutinesContext } from '../hooks/useRoutinesContext';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { set } from 'date-fns';
 
 const RoutineForm = () => {
+  const {state} = useAuthContext();
+  const { user } = state;
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
   const [difficulty, setDifficulty] = useState('')
@@ -13,6 +17,7 @@ const RoutineForm = () => {
   const { dispatch } = useRoutinesContext();
 
 
+  console.log(user)
   const capitalizeFirstLetters = (input) => {
     return input
       .split(' ')
@@ -23,19 +28,27 @@ const RoutineForm = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
   
+    if (!user) {
+      setErrors({ message: "You must be logged in to create a routine" });
+      return;
+    }
+  
     const capitalizedDescription = capitalizeFirstLetters(description);
-
+  
     axios
-      .post('http://localhost:8000/api/routines', {
-       name: capitalizeFirstLetters(name),
+      .post("http://localhost:8000/api/routines", {
+        name: capitalizeFirstLetters(name),
         time,
         difficulty,
         description: capitalizedDescription,
+      }, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       })
       .then((res) => {
         console.log(res);
-        dispatch({ type: "CREATE_ROUTINE", payload: res.data }); // Dispatch the action
-        
+        dispatch({ type: "CREATE_ROUTINE", payload: res.data }); 
       })
       .catch((err) => {
         console.log(err.response.data.errors);
@@ -108,7 +121,10 @@ const RoutineForm = () => {
               onChange={(e) => { setDescription(e.target.value) }}
             />
             {errors.description && <p className="error-message">{errors.description.message}</p>}
+
+            
           </div>
+          {errors && <p className="error-message">{errors.message}</p>}
           <button type="submit" className="btn btn-primary" onClick={onSubmitHandler}>Submit</button>
         </form>
         </div>

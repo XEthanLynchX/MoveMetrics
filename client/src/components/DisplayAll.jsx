@@ -29,6 +29,7 @@ const DisplayAll = () => {
  
   const handleLogout = () => {
     logout();
+    window.location.reload();
   };
 
   const handleEdit = (routine) => {
@@ -46,19 +47,21 @@ const DisplayAll = () => {
     setEditRoutine(null);
     setShowUpdateForm(false);
   };
-
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/routines")
-      .then((res) => {
-        console.log(res.data);
-        dispatch({ type: "GET_ROUTINES", payload: res.data });
-       
-      })
-      .catch((err) => console.log(err));
-  }, [dispatch]);
- 
-  // console.log ("user", user);
+    if (user && (!routines || !routines.length)) {
+      axios
+        .get("http://localhost:8000/api/routines", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          dispatch({ type: "GET_ROUTINES", payload: res.data });
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [dispatch, user, routines]);
  
   const handleDelete = (deleteId) => {
     setRoutineToDelete(deleteId);

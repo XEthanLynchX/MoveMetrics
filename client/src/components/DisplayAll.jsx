@@ -128,33 +128,34 @@ return (
       </div>
     </header>
     <div className="p-4 d-flex">
-      <div className="routine-cards-container">
-          {routines && routines.map((routine) => (
-            <div className="mb-4" key={routine._id}>
-              <div className="DisplayAllCard border rounded p-3 position-relative">
-                <div className="card-body">
-                  <Link to={`/${routine._id}`} style={{ textDecoration: 'none' }}>
-                    <h5 className="title">{routine.name}</h5>
-                  </Link>
-                  <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
-                 
-                  <p className="card-text">
-                    <span className="label text-black">Difficulty:</span>{" "}
-                    {getDifficultyText(routine.difficulty)}
-                  </p>
-                  <p className="card-text" style={{ wordWrap: "break-word" }}>
-                  {routine.description}
-                  </p>
+  <div className="routine-cards-container">
+    {routines && routines.length > 0 ? (
+      routines.map((routine) => (
+        <div className="mb-4" key={routine._id}>
+          <div className="DisplayAllCard border rounded p-3 position-relative">
+            <div className="card-body">
+              <Link to={`/${routine._id}`} style={{ textDecoration: 'none' }}>
+                <h5 className="title">{routine.name}</h5>
+              </Link>
+              <p className="card-text"><span className="label text-black">Minutes:</span> {routine.time}</p>
+             
+              <p className="card-text">
+                <span className="label text-black">Difficulty:</span>{" "}
+                {getDifficultyText(routine.difficulty)}
+              </p>
+              <p className="card-text">
+                <span className="label text-black">Description:</span>{" "}
+                {routine.description}
+              </p>
+              <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
 
-                  <p className="card-text"><span className="label text-black">Created:</span> {formatDistanceTowNow(new Date(routine.createdAt), { addsuffix: true })} ago</p>
+             
+              <div className="button-container">
+                  <button className="settings-button"  onClick={() => handleEdit(routine)}  >
+                    <img className="settings-icon" src={settings} alt="Settings" />
+                  </button>
 
-                 
-                  <div className="button-container">
-                      <button className="settings-button"  onClick={() => handleEdit(routine)}  >
-                        <img className="settings-icon" src={settings} alt="Settings" />
-                      </button>
-
-                      <button className="delete-button" onClick={() => handleDelete(routine._id)}>
+                  <button className="delete-button" onClick={() => handleDelete(routine._id)}>
                     <img className="delete-icon" src={trash} alt="Delete" />
                   </button>
                   <DeleteConfirmation
@@ -162,27 +163,33 @@ return (
                     onClose={() => setShowConfirmation(false)}
                     onConfirm={confirmDelete}
                   />
-                    </div>
-                  </div>
-                </div>
               </div>
-          ))}
-        </div>
-        <div className="sticky-form-container">
-          <div className="sticky-form">
-            {showUpdateForm ? (
-              <UpdateRoutineForm routine={editRoutineId} 
-              onSubmission={handleUpdateSubmission}/>
-            ) : (
-              <RoutineForm />
-            )}
+            </div>
           </div>
         </div>
+      ))
+    ) : (
+      <div className="card">
+        <div className="card-body">
+          <h5 className="card-title">No routines available</h5>
+        </div>
       </div>
+    )}
+  </div>
+  <div className="sticky-form-container">
+    <div className="sticky-form">
+      {showUpdateForm ? (
+        <UpdateRoutineForm routine={editRoutineId} onSubmission={handleUpdateSubmission}/>
+      ) : (
+        <RoutineForm />
+      )}
     </div>
-  );
+  </div>
+</div>
+</div>
+);
 };
-        
+       
 export default DisplayAll;
 
 

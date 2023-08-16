@@ -34,7 +34,7 @@ const routineSchema = new mongoose.Schema({
     maxlength: [255, "Routine description must be less than 255 characters long."]
   },
 
-  user_id: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, "user_id is required."]

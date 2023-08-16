@@ -1,4 +1,4 @@
-const Exercise = require("../models/exercise.model");
+const Exercise = require("../server/models/exercise.model");
 
 const deleteExercises = async (routineId) => {
   try {

@@ -61,7 +61,7 @@ const DisplayAll = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, [dispatch, user, routines]);
+  }, []);
  
   const handleDelete = (deleteId) => {
     setRoutineToDelete(deleteId);

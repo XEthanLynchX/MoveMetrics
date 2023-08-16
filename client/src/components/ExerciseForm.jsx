@@ -3,9 +3,11 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useParams } from 'react-router-dom';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
 const ExerciseForm = ({updateExercises}) => {
+  const {state} = useAuthContext();
   const [name, setName] = useState('');
   const [sets, setSets] = useState('');
   const [reps, setReps] = useState('');
@@ -22,31 +24,53 @@ const ExerciseForm = ({updateExercises}) => {
       .join(' ');
   };
 
+  const resetForm = () => {
+    setName('');
+    setSets('');
+    setReps('');
+    setLoad('');
+    setInstructions('');
+    setErrors({});
+  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
+    if (!state.user) {
+      setErrors({ message: "You must be logged in to create an exercise" });
+      return;
+    }
+
     const capitalizedInstructions = capitalizeFirstLetters(instructions);
 
     axios
-      .post('http://localhost:8000/api/exercises', {
+    .post(
+      'http://localhost:8000/api/exercises',
+      {
         routineId,
         name: capitalizeFirstLetters(name),
         load,
         reps,
         sets,
         instructions: capitalizedInstructions,
-      })
-      .then((res) => {
-        console.log(res);
-        updateExercises();
-        // Handle success action, if needed
-      })
-      .catch((err) => {
-        console.log(err.response.data.errors);
-        setErrors(err.response.data.errors);
-      });
-  };
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res);
+      updateExercises();
+      resetForm(); // reset the form after creating a new exercise
+      // Handle success action, if needed
+    })
+    .catch((err) => {
+      console.log(err.response.data.errors);
+      setErrors(err.response.data.errors);
+    });
+};
 
   return (
     <div className="col-12">
@@ -126,6 +150,7 @@ const ExerciseForm = ({updateExercises}) => {
 
               
             </div>
+            {errors && <p className="error-message">{errors.message}</p>}
             <button type="submit" className="btn btn-primary" onClick={onSubmitHandler}>Submit</button>
           </form>
         </div>

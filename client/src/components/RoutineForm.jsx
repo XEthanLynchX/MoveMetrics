@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
 import { useRoutinesContext } from '../hooks/useRoutinesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
-import { set } from 'date-fns';
+
 
 const RoutineForm = () => {
   const {state} = useAuthContext();
@@ -49,6 +49,10 @@ const RoutineForm = () => {
       .then((res) => {
         console.log(res);
         dispatch({ type: "CREATE_ROUTINE", payload: res.data }); 
+        setName('');
+        setTime('');
+        setDifficulty('');
+        setDescription('');
       })
       .catch((err) => {
         console.log(err.response.data.errors);
@@ -124,7 +128,9 @@ const RoutineForm = () => {
 
             
           </div>
+          
           {errors && <p className="error-message">{errors.message}</p>}
+
           <button type="submit" className="btn btn-primary" onClick={onSubmitHandler}>Submit</button>
         </form>
         </div>

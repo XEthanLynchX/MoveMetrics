@@ -18,7 +18,6 @@ const OneRoutine = () => {
   const [oneRoutine, setOneRoutine] = useState({});
   const [exercises, setExercises] = useState([]); // New state for exercises
   const { state } = useAuthContext();
-  const { user } = state;
   const { logout } = useLogout();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [exerciseToDelete, setexerciseToDelete] = useState(null);
@@ -36,6 +35,7 @@ const OneRoutine = () => {
   };
 
   const handleEdit = (exercise) => {
+
     setEditExercise(exercise);
     setShowUpdateForm(true); // Show the UpdateRoutineForm
   };
@@ -53,7 +53,11 @@ const OneRoutine = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/routines/${id}`)
+      .get(`http://localhost:8000/api/routines/${id}`, {
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setOneRoutine(res.data);
@@ -61,17 +65,25 @@ const OneRoutine = () => {
       .catch((err) => console.log(err));
   
     axios
-      .get(`http://localhost:8000/api/routines/${id}/exercises`)
+      .get(`http://localhost:8000/api/routines/${id}/exercises`, {
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setExercises(res.data);
       })
       .catch((err) => console.log(err));
-  }, [id]);
+  }, [id, state.user.token]);
 
   const updateExercises = () => {
     axios
-      .get(`http://localhost:8000/api/routines/${id}/exercises`)
+      .get(`http://localhost:8000/api/routines/${id}/exercises`, {
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setExercises(res.data);
@@ -81,7 +93,11 @@ const OneRoutine = () => {
 
   const confirmDelete = () => {
     axios
-      .delete(`http://localhost:8000/api/exercises/${exerciseToDelete}`)
+      .delete(`http://localhost:8000/api/exercises/${exerciseToDelete}`, {
+        headers: {
+          Authorization: `Bearer ${state.user.token}`,
+        },
+      })
       .then((res) => {
         console.log("Routine deleted:", res.data);
         updateExercises();
@@ -102,7 +118,7 @@ const OneRoutine = () => {
         </div>
   
         <div style={{marginRight: "10%"}}>
-          {user ? (
+          {state.user ? (
             <div>
               <h1 style={{ textShadow: "2px 2px lightGreen", color: "black" }}>{oneRoutine.name}</h1>
               <Link to="/" className="btn btn-primary me-3">Home</Link>
@@ -128,9 +144,8 @@ const OneRoutine = () => {
 
       <div className="p-4 d-flex">
         <div className="routine-cards-container">
-      
-            {/* Map through the exercises and display them */}
-            {exercises.map((exercise) => (
+        {exercises && exercises.length > 0 ? (
+            exercises.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((exercise) => (
               <div key={exercise._id} className="card mb-3">
                  <div className="DisplayAllCard border rounded p-3 position-relative">
                 <div className="card-body">
@@ -159,7 +174,14 @@ const OneRoutine = () => {
                   </div>
                   </div>
               </div>
-            ))}
+            ))
+            ) : (
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">No routines available</h5>
+                </div>
+              </div>
+            )}
           </div>
           <div className="sticky-form-container">
             <div className=" sticky-form">

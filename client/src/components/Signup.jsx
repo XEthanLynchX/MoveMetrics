@@ -3,14 +3,18 @@ import { Link , useNavigate} from 'react-router-dom';
 import { useSignup } from '../hooks/useSignup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css';
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Signup = () => {
+  const {state} = useAuthContext();
+  const { user } = state
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {signup, error, isLoading} = useSignup();
   const navigate = useNavigate();
+
 
 const handleSubmit = async(e) => {
   e.preventDefault();

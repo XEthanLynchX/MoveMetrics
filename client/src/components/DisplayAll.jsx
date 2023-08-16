@@ -84,7 +84,11 @@ const DisplayAll = () => {
 
   const confirmDelete = () => {
     axios
-      .delete(`http://localhost:8000/api/routines/${routineToDelete}`)
+      .delete(`http://localhost:8000/api/routines/${routineToDelete}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((res) => {
         console.log("Routine deleted:", res.data);
         dispatch({ type: "DELETE_ROUTINE", payload: routineToDelete });
@@ -133,7 +137,7 @@ return (
     <div className="p-4 d-flex">
   <div className="routine-cards-container">
     {routines && routines.length > 0 ? (
-      routines.map((routine) => (
+      routines.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((routine) => (
         <div className="mb-4" key={routine._id}>
           <div className="DisplayAllCard border rounded p-3 position-relative">
             <div className="card-body">

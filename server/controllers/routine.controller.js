@@ -24,21 +24,11 @@ module.exports.getAllRoutines = (req, res) => {
 
 
 //To get one routine
-module.exports.getOneRoutine = async (req, res) => {
-  const user = req.user; // Get the currently logged in user from the request object
-  try {
-    const routine = await Routine.findOne({ _id: req.params.id, userId: user._id }); // Only find routines with a matching ID and userId
-
-    if (!routine) {
-      return res.status(404).json({ message: "Routine not found." });
-    }
-
-    res.json(routine);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error." });
-  }
-};
+module.exports.getOneRoutine = (req, res) => {
+    Routine.findOne({_id: req.params.id})
+      .then(routine => res.json(routine))
+        .catch(err => res.json({message: "Something went wrong (findone)", error: err}));
+},
 
 //To update a routine
 module.exports.updateRoutine = (req, res) => {

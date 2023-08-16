@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Exercise = require("./exercise.model");
 
 
 const routineSchema = new mongoose.Schema({
@@ -41,5 +42,16 @@ const routineSchema = new mongoose.Schema({
   }
 
 }, {timestamps: true});
+
+routineSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
+  try {
+    await Exercise.deleteMany({ routineId: this._id });
+    console.log("Deleted exercises for routine", this._id);
+    next();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Error deleting exercises.");
+  }
+});
 
 module.exports = mongoose.model("Routine", routineSchema);

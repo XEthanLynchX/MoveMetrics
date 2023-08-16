@@ -1,5 +1,5 @@
 const Routine = require("../models/routine.model");
-const { deleteExercises } = require("../../middleware/routineMiddleware");
+ 
 
 
 //To create a routine
@@ -24,11 +24,21 @@ module.exports.getAllRoutines = (req, res) => {
 
 
 //To get one routine
-module.exports.getOneRoutine = (req, res) => {
-    Routine.findOne({_id: req.params.id})
-      .then(routine => res.json(routine))
-        .catch(err => res.json({message: "Something went wrong (findone)", error: err}));
-},
+module.exports.getOneRoutine = async (req, res) => {
+  const user = req.user; // Get the currently logged in user from the request object
+  try {
+    const routine = await Routine.findOne({ _id: req.params.id, userId: user._id }); // Only find routines with a matching ID and userId
+
+    if (!routine) {
+      return res.status(404).json({ message: "Routine not found." });
+    }
+
+    res.json(routine);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+};
 
 //To update a routine
 module.exports.updateRoutine = (req, res) => {
@@ -42,7 +52,6 @@ module.exports.updateRoutine = (req, res) => {
     .catch((err) => res.status(400).json(err));
 };
 
-//To delete a routine
 module.exports.deleteRoutine = async (req, res) => {
   const user = req.user; // Get the currently logged in user from the request object
   try {
@@ -52,7 +61,6 @@ module.exports.deleteRoutine = async (req, res) => {
       return res.status(404).json({ message: "Routine not found." });
     }
 
-    await deleteExercises(routine._id);
     await routine.deleteOne();
 
     res.json({ message: "Routine deleted successfully." });
@@ -61,7 +69,6 @@ module.exports.deleteRoutine = async (req, res) => {
     res.status(500).json({ message: "Server error." });
   }
 };
-
 
 
 

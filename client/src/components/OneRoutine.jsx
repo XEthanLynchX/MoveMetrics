@@ -178,7 +178,7 @@ const OneRoutine = () => {
             ) : (
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">No routines available</h5>
+                  <h5 className="card-title">No Exercises Available</h5>
                 </div>
               </div>
             )}

@@ -66,27 +66,32 @@ const ExerciseForm = ({exercise, updateExercises, onSubmission}) => {
 
     const capitalizedInstructions = capitalizeFirstLetters(instructions);
 
+    const capitalizedName = capitalizeFirstLetters(name);
+
     axios
     .put(`http://localhost:8000/api/exercises/${exerciseId}`, {
-        routineId,
-        name: capitalizeFirstLetters(name),
-        load,
-        reps,
-        sets,
-        instructions: capitalizedInstructions,
-      })
-      .then((res) => {
-        console.log(res);
-        updateExercises();
-        setSubmissionStatus(true);
-        onSubmission();
-        // Handle success action, if needed
-      })
-      .catch((err) => {
-        console.log(err.response.data.errors);
-        setErrors(err.response.data.errors);
-      });
-  };
+      routineId,
+      name: capitalizedName,
+      load,
+      reps,
+      sets,
+      instructions: capitalizedInstructions,
+    }, {
+      headers: {
+        Authorization: `Bearer ${state.user.token}`,
+      },}) 
+    .then((res) => {
+      console.log(res);
+      updateExercises();
+      setSubmissionStatus(true);
+      onSubmission();
+      // Handle success action, if needed
+    })
+    .catch((err) => {
+      console.log(err.response.data.errors);
+      setErrors(err.response.data.errors);
+    });
+};
 
   return (
     <div className="col-12">

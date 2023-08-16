@@ -12,6 +12,7 @@ const routineSchema = new mongoose.Schema({
   exercises: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Exercise',
+    required: [true, "Routine exercises are required."]
   }],
 
   time: {
@@ -31,6 +32,12 @@ const routineSchema = new mongoose.Schema({
     required: [true, "Routine description is required."],
     minlength: [3, "Routine description must be at least 3 characters long."],
     maxlength: [255, "Routine description must be less than 255 characters long."]
+  },
+
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, "user_id is required."]
   }
 
 }, {timestamps: true});

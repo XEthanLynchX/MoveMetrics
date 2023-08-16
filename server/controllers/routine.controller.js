@@ -1,5 +1,5 @@
 const Routine = require("../models/routine.model");
-
+const { deleteExercises } = require("../middlewares/routines.middleware");
 
 //To create a routine
 module.exports.createRoutine = (req, res) => {
@@ -37,11 +37,24 @@ module.exports.updateRoutine = (req, res) => {
 },
 
 //To delete a routine
-module.exports.deleteRoutine = (req, res) => {
-  Routine.deleteOne({_id: req.params.id})
-    .then(deleteConfirmation => res.json(deleteConfirmation))
-    .catch(err => res.json({message: "Something went wrong (delete)", error: err}));
-}; 
+module.exports.deleteRoutine = async (req, res) => {
+  try {
+    const routine = await Routine.findById(req.params.id);
+
+    if (!routine) {
+      return res.status(404).json({ message: "Routine not found." });
+    }
+
+    await Exercise.deleteMany({ routine_id: routine._id });
+    await routine.deleteOne();
+
+    res.json({ message: "Routine deleted successfully." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
 
 
 
